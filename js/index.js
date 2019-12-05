@@ -17,6 +17,9 @@ logo.addEventListener('click',function(){
 
 
 let nav=document.querySelector("nav");
+nav.addEventListener("click", function(event){
+    event.preventDefault()
+  });
 let body=document.querySelector("body");
 let purple=function(){
     nav.style.backgroundColor='purple';
@@ -37,19 +40,32 @@ nav.addEventListener('mouseleave', white);
 
 
 let content=document.querySelector('.content-section');
+
 let destination=document.querySelector('.content-destination');
 
-let sizeUp=function(){
-    content.style.transform="scale(1.5)";
+let sizeUp=function(event){
+   event.target.style.transform="scale(1.5)";
 }
-let sizeDown=function(){
-    content.style.transform="scale(1.0)";
+let sizeDown=function(event){
+    console.log('child is clicked!')
+   event.target.style.transform="scale(1.0)";
 }
+
 let flip=function(){
     destination.style.transform="rotate(180deg)";
 }
-content.addEventListener('mousedown', sizeUp);
-content.addEventListener('mouseup', sizeDown);
+
+
+content.firstElementChild.addEventListener('mousedown', sizeUp, false);
+content.firstElementChild.addEventListener('mouseup',sizeDown, false);
+content.firstElementChild.addEventListener('click',function(event){
+    event.stopPropagation();
+    event.preventDefault()
+})
+content.addEventListener('click', function(event){
+    console.log('parent is clicked!');
+})
+
 destination.addEventListener('dblclick', flip);
 function rgb(num) {
     return Math.floor(Math.random() * num);
@@ -61,8 +77,11 @@ let colorChange = function() {
 // let images=document.querySelector('.img-fluid');
 let images=document.querySelectorAll("img")[0];
 let imgtwo=document.querySelectorAll("img")[1];
+
+imgtwo.onclick=function(){
+    imgtwo
+}
 let imgthree=document.querySelectorAll("img")[2];
-console.log(images);
 let x=0;
 let degree=function(num){
     x=x+num;
@@ -73,7 +92,8 @@ let flip25deg=function(){
      imgtwo.style.transform="rotate("+degree(25)+"deg)";
      imgthree.style.transform="rotate("+degree(25)+"deg)";
 }
-
+// body.addEventListener('wheel',colorChange);
 body.onwheel = colorChange;
 body.onscroll = flip25deg;
+
 
